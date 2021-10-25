@@ -1,0 +1,10 @@
+
+  
+  clean_kpi$data_date %>% max()
+  
+  
+  clean_kpi_kreise %>% 
+    pivot_wider(names_from = category,
+                values_from = values) %>% 
+    openxlsx::write.xlsx("20210914_kmk_kreise.xlsx")
+  
