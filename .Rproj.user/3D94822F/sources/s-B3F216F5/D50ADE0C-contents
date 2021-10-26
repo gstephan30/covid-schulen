@@ -37,7 +37,7 @@ library(stringr)
 # forecast_teacher <- read_csv("~/kmk_dashboard/forecast/week26_teacher.csv")
 
 
-load("leaflet_maps/recent_maps_kreise.RData")
+#load("leaflet_maps/recent_maps_kreise.RData")
 load("leaflet_maps/recent_maps_bl.RData")
 
 # per country data
@@ -176,8 +176,8 @@ get_country <- function(data, country_code, sub_set) {
     geom_point(color = "#27408b", size = 3) +
     geom_line(color = "#27408b", size = 1) +
     theme_light(base_size = 30) +
-    labs(x = "Calendar Week",
-         y = "estimate") +
+    labs(x = "Kalenderwoche",
+         y = "Anzahl der Infizierten") +
     scale_x_continuous(breaks = scales::breaks_pretty(1))
 }
 
@@ -197,13 +197,13 @@ Baden-Württemberg {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "BW", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "BW", "teacher")
@@ -223,13 +223,13 @@ Bavaria {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "BY", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "BY", "teacher")
@@ -248,13 +248,13 @@ Berlin {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "BE", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "BE", "teacher")
@@ -273,13 +273,13 @@ Brandenburg {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "BB", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "BB", "teacher")
@@ -298,13 +298,13 @@ Bremen {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "HB", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "HB", "teacher")
@@ -323,13 +323,13 @@ Hamburg {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "HH", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "HH", "teacher")
@@ -348,13 +348,13 @@ Hesse {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "HE", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "HE", "teacher")
@@ -373,13 +373,13 @@ Lower Saxony {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "NI", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "NI", "teacher")
@@ -398,13 +398,13 @@ Mecklenburg-Vorpommern {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "MV", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "MV", "teacher")
@@ -423,13 +423,13 @@ North Rhine-Westphalia {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "NW", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "NW", "teacher")
@@ -448,13 +448,13 @@ Rhineland-Palatinate {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "RP", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "RP", "teacher")
@@ -473,13 +473,13 @@ Saarland {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "SL", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "SL", "teacher")
@@ -498,13 +498,13 @@ Saxony {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "SN", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "SN", "teacher")
@@ -513,7 +513,7 @@ get_country(forecast_teacher, "SN", "teacher")
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Vorhersage
+### Vorhersage infizierter Schüler 
 
 The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
 
@@ -523,13 +523,13 @@ Saxony-Anhalt {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "ST", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "ST", "teacher")
@@ -548,13 +548,13 @@ Schleswig-Holstein {data-navmenu="Forecast"}
 Column
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "SH", "student")
 ```
 
-### Count of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "SH", "teacher")
@@ -575,13 +575,13 @@ Thuringia {data-navmenu="Forecast"}
 Column 
 -----------------------------------------------------------------------
 
-### Forecast of COVID-19 Infected pupils
+### Vorhersage infizierter Schüler 
 
 ```{r eval=TRUE}
 get_country(forecast_students, "TH", "student")
 ```
 
-### Forecast of COVID-19 Infected teacher
+### Vorhersage infizierter Lehrkräfte
 
 ```{r eval=TRUE}
 get_country(forecast_teacher, "TH", "teacher")
