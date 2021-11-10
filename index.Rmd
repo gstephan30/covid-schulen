@@ -38,7 +38,7 @@ library(stringr)
 
 
 load("leaflet_maps/recent_maps_bl.RData")
-#load("leaflet_maps/gall_bl.RData")
+load("leaflet_maps/gall_bl.RData")
 load("leaflet_maps/recent_maps_bl_quara.RData")
 load("data_clean/current_tabs.RData")
 
@@ -91,8 +91,7 @@ Row
 
 ### Inhaltlicher Verlauf
 
-```{r eval=FALSE, out.width="120%"}
-#knitr::include_graphics("leaflet_maps/gall_bl.png")
+```{r eval=TRUE, out.width="120%"}
 g_bl_all
 ```
 
