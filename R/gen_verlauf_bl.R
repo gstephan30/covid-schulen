@@ -24,7 +24,6 @@ bl_data <- list.files("data_clean/", pattern =  "_clean_kpi_bl.rds", full.names 
          
 bl_data %>%
   mutate(date = as.Date(date, origin = "1900-01-01")) %>% readr::write_excel_csv2("kmk_bl-20211018.csv")
-as.Date(44252, origin = "1900-01-01")
 
 bl.shp <- raster::getData("GADM", country = "DEU", level = 1) 
 bl_tidy <- bl.shp %>% 
@@ -53,7 +52,10 @@ g_bl_all <- ggplot() +
   facet_wrap(~data_date, nrow = 3) +
   labs(fill = "Infizierte in %",
        title = "Infizierte Schüler in Deutschland",
-       subtitle = "Datenquelle @ KWK") +
+       subtitle = "Datenquelle @KWK") +
   theme(legend.position = "bottom",
-        plot.margin = grid::unit(c(0, 0, 0, 0), "mm"))
+        plot.margin = grid::unit(c(0, 0, 0, 0), "mm")) +
+  scale_fill_viridis_c()
+
+save(g_bl_all, file = "leaflet_maps/gall_bl.RData")
 ggsave(g_bl_all, filename = "leaflet_maps/gall_bl.png", dpi = 300, scale = 4)  

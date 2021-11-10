@@ -2,9 +2,10 @@ library(dplyr)
 library(stringr)
 library(lubridate)
 library(purrr)
+library(tidyr)
 
 
-kpi_kreis <- list.files(path = "../data_clean/", pattern = "kreise", full.names = TRUE) %>% 
+kpi_bl <- list.files(path = "data_clean/", pattern = "kmkdata_bl.rds", full.names = TRUE) %>% 
   as_tibble() %>% 
   rename(file = value) %>% 
   mutate(datum = str_extract(file, "[0-9]{8}"),
@@ -12,24 +13,20 @@ kpi_kreis <- list.files(path = "../data_clean/", pattern = "kreise", full.names 
   arrange(desc(datum)) %>% 
   pull(file) %>% 
   .[1] %>% 
-  readRDS() %>% 
-  mutate(kw_label = ifelse(nchar(kw_label) == 7, kw_label, str_replace_all(kw_label, "-", "-0")),
-         values = as.numeric(values),
-         week_date = as.Date(paste0(kw_label, "-1"), "%Y-%U-%u")) 
+  readRDS()
 
-kreise <- unique(kpi_kreis$CC_2[!is.na(kpi_kreis$CC_2)])
+tab_students <- kpi_bl %>% 
+  select(NAME_1, contains("students"), -students_perc) %>% 
+  mutate_if(is.numeric, ~round(., 4)) %>% 
+  set_names("Bundesland", "Infizierte Schüler", "Infizierte Schüler in %",
+            "Schüler in Quaratäne", "Schüler in Quaratäne in %", "Gesamte Schüler") %>% 
+  DT::datatable(options = list(pageLength = 16, dom = 'tip'))
 
-render_county <- function(county_code) {
-  print(paste0("Writing: ", county_code))
-  rmarkdown::render(
-    input = "county_template/county_template.Rmd",
-    params = list(
-      county = county_code
-    ),
-    output_file = paste0("../county_report/", county_code, ".html")
-  )
-  
-}
+tab_teacher <- kpi_bl %>% 
+  select(NAME_1, contains("teacher"), -teacher_perc, -label_teacher) %>% 
+  mutate_if(is.numeric, ~round(., 4)) %>% 
+  set_names("Bundesland", "Infizierte Lehrkräfte", "Infizierte Lehrkräfte in %",
+            "Lehrkräfte in Quaratäne", "Lehrkräfte in Quaratäne in %", "Gesamte Lehrkräfte") %>% 
+  DT::datatable(options = list(pageLength = 16, dom = 'tip'))
 
-map(kreise, render_county)
-
+save(tab_students, tab_teacher, file = "data_clean/current_tabs.RData")

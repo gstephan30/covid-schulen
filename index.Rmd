@@ -37,8 +37,10 @@ library(stringr)
 # forecast_teacher <- read_csv("~/kmk_dashboard/forecast/week26_teacher.csv")
 
 
-#load("leaflet_maps/recent_maps_kreise.RData")
 load("leaflet_maps/recent_maps_bl.RData")
+#load("leaflet_maps/gall_bl.RData")
+load("leaflet_maps/recent_maps_bl_quara.RData")
+load("data_clean/current_tabs.RData")
 
 # per country data
 recent_kmkdata_file <- list.files("data_clean/", pattern = "kmkdata.rds", full.names = TRUE) %>% 
@@ -89,16 +91,17 @@ Row
 
 ### Inhaltlicher Verlauf
 
-```{r evale= TRUE, out.width="150%"}
-knitr::include_graphics("leaflet_maps/gall_bl.png")
+```{r eval=FALSE, out.width="120%"}
+#knitr::include_graphics("leaflet_maps/gall_bl.png")
+g_bl_all
 ```
 
-Row {data-height=100}
+Row {data-height=50}
 -----------------------------------------------------------------------
 
 ### Beschreibung 
 
-Beschreibung Graphik.
+Diese Abbildung zeigt den zeitlichen Verlauf infizierter Schüler nach Kalenderwoche.
 
 
 Quarantäne in Schulen 
@@ -110,7 +113,7 @@ Column
 ### Quarantäne von Schülern 
 
 ```{r}
-
+kmk_students_bl_quara
 ```
 
 Column
@@ -119,21 +122,29 @@ Column
 ### Quarantäne von Lehrkräften 
 
 ```{r}
-
+kmk_teacher_bl_quara
 ```
 
 
 Tabellen Bundesländer
 =============================
 
+Column {.tabset}
+-----------------------------------------------------------------------
 
-```{r eval=FALSE}
-recent_kmkdata_file %>% 
-  mutate(url = paste0("<a  href='", plot_link, "'>link</a>")) %>% 
-  select(NAME_2, NAME_1, url, contains("students"), contains("teacher"), contains("schools")) %>% 
-  DT::datatable(escape = FALSE)
+### Schüler
+
+```{r eval=TRUE}
+tab_students
   
 ```
+
+### Lehrkräfte
+
+```{r eval=TRUE}
+tab_teacher
+```
+
 
 <b>Germany (overall)</b> {data-navmenu="Forecast"}
 =============================
@@ -188,7 +199,7 @@ Column {data-width=250}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 
 Baden-Württemberg {data-navmenu="Forecast"}
@@ -214,7 +225,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 
 Bavaria {data-navmenu="Forecast"}
@@ -240,7 +251,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Berlin {data-navmenu="Forecast"}
 =============================
@@ -265,7 +276,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Brandenburg {data-navmenu="Forecast"}
 =============================
@@ -290,7 +301,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Bremen {data-navmenu="Forecast"}
 =============================
@@ -315,7 +326,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Hamburg {data-navmenu="Forecast"}
 =============================
@@ -340,7 +351,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Hesse {data-navmenu="Forecast"}
 =============================
@@ -365,7 +376,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Lower Saxony {data-navmenu="Forecast"}
 =============================
@@ -390,7 +401,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Mecklenburg-Vorpommern {data-navmenu="Forecast"}
 =============================
@@ -415,7 +426,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 North Rhine-Westphalia {data-navmenu="Forecast"}
 =============================
@@ -440,7 +451,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Rhineland-Palatinate {data-navmenu="Forecast"}
 =============================
@@ -465,7 +476,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Saarland {data-navmenu="Forecast"}
 =============================
@@ -490,7 +501,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Saxony {data-navmenu="Forecast"}
 =============================
@@ -515,7 +526,7 @@ Column {data-width=350}
 
 ### Vorhersage infizierter Schüler 
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Saxony-Anhalt {data-navmenu="Forecast"}
 =============================
@@ -540,7 +551,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 Schleswig-Holstein {data-navmenu="Forecast"}
 =============================
@@ -565,7 +576,7 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 
 
@@ -592,6 +603,68 @@ Column {data-width=350}
 
 ### Vorhersage
 
-The model is also developed as an age-structured model. It is adopted by deterministic SEIR (Susceptible-Exposed-Infectious-Recovered) model with additional compartments for the hospitalized, intensive unit, long-COVID and death. The rates of infection corresponding age groups depend on the social contacts by POLYMOD study. The model is fitted to reported cases from KMK and RKI (survstat). The fitted parameters are used to predict the number of cases in schools. We consider the last two weeks reported data to show two weeks forecasts. The forecasts is shown in student and teacher/teaching staff cases. 
+Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 
+Impressum 
+=================================================
+
+__Herausgeber__
+
+Helmholtz-Zentrum für Infektionsforschung GmbH (HZI)  
+Inhoffenstraße 7 | 38124 Braunschweig  
+Telefon: 0531 6181-0  
+Telefax: 0531 6181-2655  
+E-Mail: info@helmholtz-hzi.de  
+Internet: https://www.helmholtz-hzi.de/  
+
+__Rechtsform__
+
+Das Helmholtz-Zentrum für Infektionsforschung (HZI) ist eine Gesellschaft mit beschränkter Haftung (mbH). Das HZI ist Mitglied der Helmholtz-Gemeinschaft Deutscher Forschungszentren e.V.  
+Registernummer: HRB 477  
+Registergericht: Amtsgericht Braunschweig
+
+__Vertretungsberechtigte Personen__
+
+Prof. Dr. Dirk Heinz, Wissenschaftlicher Geschäftsführer  
+Silke Tannapfel, Administrative Geschäftsführerin  
+(Anschrift wie oben)  
+
+Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz 
+DE 114815244  
+Verantwortlich iSd. § 55 II RStV  
+
+Helmholtz-Zentrum für Infektionsforschung GmbH
+
+Verantwortlich für journalistisch-redaktionelle Inhalte:  
+
+Susanne Thiele (Pressesprecherin)  
+Inhoffenstraße 7  
+D-38124 Braunschweig  
+Telefon: 0531 6181- 0
+
+__Wissenschaftliche Redaktion__
+
+Dr. Stephan Glöckner, Wissenschaftler  
+Dr. Berit Lange, Projektleitung  
+Telefon: 0531 6181- 3100  
+
+__Urheberrecht__
+
+Der Inhalt aller Webseiten dieses Internetauftrittes ist urheberrechtlich geschützt. Alle Abbildungen und Fotos auf den Webseiten des HZI dürfen nicht ohne Genehmigung des HZI übernommen, vervielfältigt und verbreitet werden, außer die Maßnahme ist nach gesetzlichen Vorschriften zustimmungsfrei erlaubt. Eine Veränderung der Metadaten (IPTC-Daten inkl. Nennung von Urheber, Quelle, Copyright-Vermerk und Nutzungsbedingungen) der Bilder ist nicht zulässig.
+
+Bilder unter einer Creative Commons Lizenz dürfen gemäß der verwendeten Lizenz genutzt werden.
+
+Die Verwendung von Abbildungen und Fotos, die nicht unter einer Creative Commons Lizenz stehen, ist bei Nennung des HZI in den folgenden Fällen gestattet: Bei redaktionell-journalistischen Veröffentlichungen in Presse und anderen Medien über die Arbeit des HZI, für sonstige nicht-kommerzielle Zwecke (Bildung, persönliche Information). Eine kommerzielle Nutzung ist zuvor beim HZI anzufragen.
+
+__Haftungshinweis__
+
+Die auf den Web-Seiten enthaltenen Informationen wurden sorgfältig erstellt und das HZI ist um eine laufende Aktualisierung bemüht, eine Gewähr für die Korrektheit, Aktualität und Vollständigkeit kann aber nicht übernommen werden, es sei denn bei nachgewiesenem vorsätzlichen oder grob fahrlässigem Verschulden des HZI. Das gilt auch für die Inhalte externer Links zu anderen Internet-Seiten.
+
+Trotz sorgfältiger inhaltlicher Kontrolle übernimmt das HZI keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.
+
+__Zu dieser Seite__
+
+Die im Impressum vom Verfasser angegebenen Kontaktdaten sind ausschließlich zur Kontaktaufnahme bezüglich rechtlicher und inhaltlicher Themen gedacht. Die Verwendung dieser Daten für werbende Zwecke wird ausdrücklich untersagt.
+
+Konzeption, Design und technische Umsetzung der Website wurden realisiert von Helmholtz-Zentrum für Infektionsforschung GmbH

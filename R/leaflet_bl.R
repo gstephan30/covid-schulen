@@ -55,7 +55,7 @@ kmk_data@data <- bl.shp@data %>%
   mutate(label = paste0(NAME_1, "\nInfiziert: ", round(students_perc, 4), "%"),
          label = ifelse(grepl("NA%$", label), paste0(NAME_1, " - Schule geschlossen"), label),
          label_teacher = paste0(NAME_1, "\nInfiziert: ", round(teacher_perc, 4), "%"),
-         label_teacher = ifelse(grepl("NA%$", label), paste0(NAME_1, " - Schule geschlossen"), label))
+         label_teacher = ifelse(grepl("NA%$", label_teacher), paste0(NAME_1, " - Schule geschlossen"), label_teacher))
 
 heute_str <- gsub("-", "", Sys.Date())
 saveRDS(kmk_data@data, file = paste0("data_clean/", heute_str, "_kmkdata_bl.rds"))
@@ -124,7 +124,7 @@ kmk_students_bl <- leaflet(options = leafletOptions(
   addLegend(position = "bottomright",
             pal = pall, 
             values = kmk_data$students_perc[!is.na(kmk_data$students_perc)],
-            title = "Infected Students\nin %", na.label="")
+            title = "Infizierte Schüler\nin %", na.label="")
 
 #####################################################################################
 #### teacher
@@ -190,6 +190,6 @@ kmk_teacher_bl <- leaflet(options = leafletOptions(
   addLegend(position = "bottomright",
             pal = pall, 
             values = kmk_data$teacher_perc[!is.na(kmk_data$teacher_perc)],
-            title = "Infected Teacher\nin %", na.label="")
+            title = "Infizierte Lehrkräfte\nin %", na.label="")
 
 save(kmk_students_bl, kmk_teacher_bl, file = "leaflet_maps/recent_maps_bl.RData")
