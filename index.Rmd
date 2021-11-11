@@ -4,9 +4,10 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    logo: hzi4.png
     theme: 
       version: 4
-      bootswatch: flatly
+      bootswatch: cosmo
 ---
 
 ```{r setup, include=FALSE}
@@ -56,7 +57,6 @@ forecast_students <- read_csv("data_clean/week40_student.csv")
 forecast_teacher <- read_csv("data_clean/week40_teacher.csv")
 time_kmk <- read_csv("data_clean/KMK_data.csv")
 ```
-
 
 
 
@@ -158,9 +158,9 @@ get_country <- function(data, country_code, sub_set) {
   #data <- forecast_students
   #country_code <- "TH"
   
-  #subset <- "student"
+  #sub_set <- "student"
   
-  data %>%
+  plot_data <- data %>%
     mutate(key = paste0(type, "_", quantile)) %>%
     select(target_week, location, key, value) %>%
     filter(location == country_code) %>%
@@ -172,7 +172,13 @@ get_country <- function(data, country_code, sub_set) {
                        location, point_NA = any_of(sub_set)) %>% 
                 mutate(point_NA = ifelse(point_NA == "-", NA, point_NA),
                        point_NA = as.numeric(point_NA))) %>% 
-    ggplot(aes(x = target_week, y = point_NA)) +
+    mutate(target_week = ifelse(nchar(target_week) == 1, paste0("0", target_week), target_week),
+           target_week = paste0("2021-KW", target_week))
+  
+  x_axis <- sort(plot_data$target_week)
+
+  plot_data %>% 
+    ggplot(aes(x = target_week, y = point_NA, group = 1)) +
     geom_ribbon(
       aes(ymin = quantile_0.025,
           ymax = quantile_0.975),
@@ -186,9 +192,10 @@ get_country <- function(data, country_code, sub_set) {
     geom_point(color = "#27408b", size = 3) +
     geom_line(color = "#27408b", size = 1) +
     theme_light(base_size = 30) +
-    labs(x = "Kalenderwoche",
+    labs(x = "Kalenderwoche (KW)",
          y = "Anzahl der Infizierten") +
-    scale_x_continuous(breaks = scales::breaks_pretty(1))
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5)) +
+    scale_x_discrete(breaks = x_axis[seq(1, length(x_axis), 5)])
 }
 
 ```
@@ -227,7 +234,7 @@ Column {data-width=350}
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 
-Bavaria {data-navmenu="Forecast"}
+Bayern {data-navmenu="Forecast"}
 =============================
 
 Column
@@ -352,7 +359,7 @@ Column {data-width=350}
 
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
-Hesse {data-navmenu="Forecast"}
+Hessen {data-navmenu="Forecast"}
 =============================
 
 Column
@@ -377,7 +384,7 @@ Column {data-width=350}
 
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
-Lower Saxony {data-navmenu="Forecast"}
+Niedersachsen {data-navmenu="Forecast"}
 =============================
 
 Column
@@ -427,7 +434,7 @@ Column {data-width=350}
 
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
-North Rhine-Westphalia {data-navmenu="Forecast"}
+Nordrhein-Westfalen {data-navmenu="Forecast"}
 =============================
 
 Column
@@ -452,7 +459,7 @@ Column {data-width=350}
 
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
-Rhineland-Palatinate {data-navmenu="Forecast"}
+Rheinland-Pfalz {data-navmenu="Forecast"}
 =============================
 
 Column
@@ -502,7 +509,7 @@ Column {data-width=350}
 
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
-Saxony {data-navmenu="Forecast"}
+Sachsen {data-navmenu="Forecast"}
 =============================
 
 Column
@@ -527,7 +534,7 @@ Column {data-width=350}
 
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
-Saxony-Anhalt {data-navmenu="Forecast"}
+Sachsen-Anhalt {data-navmenu="Forecast"}
 =============================
 
 Column
@@ -579,7 +586,7 @@ Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom de
 
 
 
-Thuringia {data-navmenu="Forecast"}
+Thüringen {data-navmenu="Forecast"}
 =============================
 
 Column 
