@@ -44,6 +44,16 @@ load("leaflet_maps/recent_maps_bl_quara.RData")
 load("data_clean/current_tabs.RData")
 
 # per country data
+df_long <- list.files("data_clean/", pattern = "_clean_kpi_bl.rds", full.names = TRUE) %>% 
+  as_tibble() %>% 
+  mutate(datum = str_extract(value, "[0-9]{8}"),
+         datum = ymd(datum)) %>% 
+  arrange(desc(datum)) %>% 
+  pull(value) %>% 
+  .[1] %>% 
+  readRDS()
+
+# clean kpi data
 recent_kmkdata_file <- list.files("data_clean/", pattern = "kmkdata.rds", full.names = TRUE) %>% 
   as_tibble() %>% 
   mutate(datum = str_extract(value, "[0-9]{8}"),
@@ -52,6 +62,7 @@ recent_kmkdata_file <- list.files("data_clean/", pattern = "kmkdata.rds", full.n
   pull(value) %>% 
   .[1] %>% 
   readRDS()
+
 
 recent_forcasts <- list.files("data_clean/", pattern = "_student.csv|_teacher.csv", full.names = TRUE) %>% 
   as_tibble() %>% 
@@ -71,24 +82,62 @@ time_kmk <- read_csv("data_clean/KMK_data.csv")
 Aktueller Stand 
 =================================================
 
-Column {data-width=650}
+Column 
 -----------------------------------------------------------------------
 
-### Infektionen Schüler
+### Infektionen Schüler {data-height=900}
 
 ```{r eval=TRUE}
 kmk_students_bl
+
 ```
 
-Column {data-width=650}
+### Infektionen Schüler {data-height=300}
+
+```{r eval=TRUE, fig.width=20}
+plot_verlauf <- function(cat) {
+  plot_data <- df_long %>%
+    filter(category == cat,
+           data_date > ymd(20210101)) %>%
+    mutate(
+      woche = week(data_date),
+      woche = ifelse(nchar(woche) == 1, paste0("0", woche), woche),
+      jahr = year(data_date),
+      kw = paste0(jahr, "-KW", woche)
+    ) %>%
+    group_by(kw) %>%
+    summarise(total = sum(value, na.rm = TRUE))
+  
+  xticks <- sort(plot_data$kw)
+  
+  plot_data %>%
+    ggplot(aes(kw, total, group = 1)) +
+    geom_line(size = 1.5) +
+    ggplot2::theme_light() +
+    theme(text = element_text(size = 60))  +
+    scale_x_discrete(breaks = xticks[seq(1, length(xticks), 7)]) +
+    labs(x = "Kalenderwoche", y = "Total infiziert")
+}
+plot_verlauf("students_infected")
+
+
+```
+
+Column 
 -----------------------------------------------------------------------
 
-### Infektionen Lehrkräfte
+### Infektionen Lehrkräfte {data-height=900}
 
 ```{r eval=TRUE}
 kmk_teacher_bl
 ```
 
+
+### Infektionen Lehrkräfte {data-height=300}
+
+```{r eval=TRUE, fig.width=20}
+plot_verlauf("teacher_infected") 
+```
 
 Zeitlicher Verlauf der Infektionen {data-orientation=rows}
 =================================================
@@ -118,7 +167,7 @@ Column
 
 ### Quarantäne von Schülern 
 
-```{r}
+```{r eval=TRUE}
 kmk_students_bl_quara
 ```
 
@@ -127,7 +176,7 @@ Column
 
 ### Quarantäne von Lehrkräften 
 
-```{r}
+```{r eval=TRUE}
 kmk_teacher_bl_quara
 ```
 

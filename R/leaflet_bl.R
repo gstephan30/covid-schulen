@@ -41,7 +41,7 @@ infected <- kpi_kreis %>%
 # tidy_lk <- landkreise.shp %>% 
 #   broom::tidy(region = "CC_2")
 bl.shp <- raster::getData("GADM", country = "DEU", level = 1) 
-bl_tidy <- bl.shp%>% 
+bl_tidy <- bl.shp %>% 
   broom::tidy(region = "CC_1")
 
 

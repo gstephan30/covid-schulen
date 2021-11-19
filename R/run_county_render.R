@@ -5,17 +5,6 @@ library(purrr)
 library(tidyr)
 
 
-kpi_bl <- list.files(path = "data_clean/", pattern = "kmkdata_bl.rds", full.names = TRUE) %>% 
-  as_tibble() %>% 
-  rename(file = value) %>% 
-  mutate(datum = str_extract(file, "[0-9]{8}"),
-         datum = ymd(datum)) %>% 
-  arrange(desc(datum)) %>% 
-  pull(file) %>% 
-  .[1] %>% 
-  readRDS()
-
-
 # bundesland merge daten
 bl.shp <- raster::getData("GADM", country = "DEU", level = 1) 
 bl_tidy <- bl.shp%>% 
