@@ -21,23 +21,6 @@ library(readr)
 library(tidyr)
 library(stringr)
 
-# import bl data from kmk.org
-# df_bls <- list.files("~/kmk_dashboard/meta_data/", full.names = TRUE) %>% 
-#   as_tibble() %>% 
-#   mutate(datum = str_extract(value, "[0-9]{8}"),
-#          datum = ymd(datum)) %>% 
-#   arrange(desc(datum)) %>% 
-#   pull(value) %>% 
-#   .[1] %>% 
-#   readRDS()
-
-# load("~/kmk_dashboard/landing/20210709_kmk.RData")
-# #load("~/kmk_dashboard/meta_data/20210709_meta.RData")
-# df <- readRDS("meta_data/clean_kip.rds")
-# forecast_students <- read_csv("~/kmk_dashboard/forecast/week26_student.csv")
-# forecast_teacher <- read_csv("~/kmk_dashboard/forecast/week26_teacher.csv")
-
-
 load("leaflet_maps/recent_maps_bl.RData")
 load("leaflet_maps/gall_bl.RData")
 load("leaflet_maps/recent_maps_bl_quara.RData")
@@ -112,7 +95,7 @@ plot_verlauf <- function(cat) {
   
   plot_data %>%
     ggplot(aes(kw, total, group = 1)) +
-    geom_line(size = 1.5) +
+    geom_col() +
     ggplot2::theme_light() +
     theme(text = element_text(size = 60))  +
     scale_x_discrete(breaks = xticks[seq(1, length(xticks), 7)]) +
