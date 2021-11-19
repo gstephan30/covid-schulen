@@ -4,6 +4,7 @@ library(readxl)
 library(tidyr)
 #library(purrr)
 
+# download new data
 source("R/kmk_scrap.R")
 scrap_kmk()
 
@@ -14,7 +15,7 @@ data_files <- list.files(path = "data_raw/kmk.org/", full.names = TRUE) %>%
   mutate(week = str_remove_all(file, "Covid-19|Covid19|-|_|Werte|Zahlen|neu|.xlsx|data/"),
          week = str_extract(week, "[0-9][0-9]|[0-9]"),
          week = as.numeric(week),
-         year = ifelse(week > 45, 2020, 2021)) %>% 
+         year = ifelse(grepl("Zahlen|_AW.xlsx", file), 2020, 2021)) %>% 
   arrange(week)
 
 ## subset the data

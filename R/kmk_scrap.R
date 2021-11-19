@@ -11,10 +11,29 @@ scrap_kmk <- function() {
     grep("xlsx", ., value = TRUE) %>% 
     paste0("https://www.kmk.org", .)
   
-  # Downloading the data
-  map(xlsx_files, function(x) download.file(x, destfile = paste0("data_raw/kmk.org/",  basename(x)), mode = "wb"))
+  current_files <- xlsx_files %>% basename() 
+  downloaded_files <- list.files("data_raw/kmk.org/")
   
-  ## TODO stop downloading files, already downloaded
+  new_files <- setdiff(current_files, downloaded_files)
+ 
+  
+  if (length(new_files)>0) {
+    print("Downloading new file(s)...")
+    
+    new_download <- grep(new_files, xlsx_files, value = TRUE)
+    
+    # Downloading the data
+    map(new_download, function(x)
+      download.file(
+        x,
+        destfile = paste0("data_raw/kmk.org/",  basename(x)),
+        mode = "wb"
+      ))
+  } else {
+    print("No new data available.")
+  }
+  
+  
 }
 
 
