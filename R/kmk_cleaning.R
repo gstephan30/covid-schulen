@@ -16,7 +16,7 @@ data_files <- list.files(path = "data_raw/kmk.org/", full.names = TRUE) %>%
          week = str_extract(week, "[0-9][0-9]|[0-9]"),
          week = as.numeric(week),
          year = ifelse(grepl("Zahlen|_AW.xlsx", file), 2020, 2021)) %>% 
-  arrange(week)
+  arrange(desc(year), desc(week))
 
 ## subset the data
 grep_kpi <- function(file) {
@@ -60,9 +60,9 @@ grep_kpi <- function(file) {
            bl_SH = starts_with("SH", ignore.case = FALSE),
            bl_TH = starts_with("TH", ignore.case = FALSE)) %>% 
     janitor::clean_names() %>% 
-    mutate(ind = lag(land)) %>% 
+    #mutate(ind = lag(land)) %>% 
     #select(key = ind, 2, 3) %>% 
-    select(land, everything(), -ind) %>% 
+    #select(land, everything(), -ind) %>% 
     mutate(ind = ifelse(grepl("Anteil", land), NA, land),
            ind2 = case_when(grepl("ohne Präsen", land) ~ "schools_closed",
                             grepl("^Schulen mit eingeschränktem", land) ~ "schools_limited",
