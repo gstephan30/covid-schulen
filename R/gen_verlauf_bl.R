@@ -41,6 +41,10 @@ shape_data <- bl.shp@data %>%
   ) %>% 
   mutate(date = as.Date(date, origin = "1899-01-01"))
 
+perc_nan <- shape_data$students_perc[!is.nan(shape_data$students_perc)]
+perc_inf <- perc_nan[!is.infinite(perc_nan)]
+perc_na <- perc_inf[!is.na(perc_inf)]
+
 g_bl_all <- ggplot() +
   geom_polygon(
     data = bl_tidy %>% 
@@ -55,7 +59,8 @@ g_bl_all <- ggplot() +
        subtitle = "Datenquelle @KWK") +
   theme(legend.position = "bottom",
         plot.margin = grid::unit(c(0, 0, 0, 0), "mm")) +
-  scale_fill_viridis_c()
+  scale_fill_gradient2(low = "#053061", high = "#67001f", mid = "#f7f7f7",
+                       midpoint = max(perc_na)/2)
 
 save(g_bl_all, file = "leaflet_maps/gall_bl.RData")
 ggsave(g_bl_all, filename = "leaflet_maps/gall_bl.png", dpi = 300, scale = 4)  
