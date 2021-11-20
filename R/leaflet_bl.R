@@ -50,7 +50,8 @@ kmk_data <- bl.shp
 kmk_data@data <- bl.shp@data %>% 
   as_tibble() %>% 
   left_join(infected %>% 
-              filter(data_date == max(data_date)),
+              filter(data_date == max(data_date)) %>% 
+              mutate(HASC_1 = str_replace_all(HASC_1, "DE.BB", "DE.BR")),
             by = "HASC_1") %>% 
   mutate(label = paste0(NAME_1, "\nInfiziert: ", round(students_perc, 4), "%"),
          label = ifelse(grepl("NA%$", label), paste0(NAME_1, " - Schule geschlossen"), label),

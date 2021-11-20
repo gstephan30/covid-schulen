@@ -191,6 +191,6 @@ kmk_teacher_bl_quara <- leaflet(options = leafletOptions(
   addLegend(position = "bottomright",
             pal = pall, 
             values = kmk_data$teacher_quarantine_perc[!is.na(kmk_data$teacher_quarantine_perc)],
-            title = "Infizierte Lehrkräfte\nin %", na.label="")
+            title = "Lehrkräfte in Quaratäne in %", na.label="")
 
 save(kmk_students_bl_quara, kmk_teacher_bl_quara, file = "leaflet_maps/recent_maps_bl_quara.RData")
