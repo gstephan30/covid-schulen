@@ -75,7 +75,7 @@ kmk_students_bl
 
 ```
 
-### Infektionen Schüler {data-height=300}
+### Infektionen Schüler {data-height=250}
 
 ```{r eval=TRUE, fig.width=20}
 plot_verlauf <- function(cat) {
@@ -95,7 +95,7 @@ plot_verlauf <- function(cat) {
   
   plot_data %>%
     ggplot(aes(kw, total, group = 1)) +
-    geom_col() +
+    geom_col(fill = "#1a16a8") +
     ggplot2::theme_light() +
     theme(text = element_text(size = 60))  +
     scale_x_discrete(breaks = xticks[seq(1, length(xticks), 7)]) +
@@ -116,7 +116,7 @@ kmk_teacher_bl
 ```
 
 
-### Infektionen Lehrkräfte {data-height=300}
+### Infektionen Lehrkräfte {data-height=250}
 
 ```{r eval=TRUE, fig.width=20}
 plot_verlauf("teacher_infected") 
@@ -130,7 +130,7 @@ Row
 
 ### Inhaltlicher Verlauf
 
-```{r eval=TRUE, out.width="120%"}
+```{r eval=TRUE, fig.width=40}
 g_bl_all
 ```
 
