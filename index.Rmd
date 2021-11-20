@@ -130,9 +130,11 @@ Row
 
 ### Inhaltlicher Verlauf
 
-```{r eval=TRUE, fig.width=40}
+```{r eval=TRUE, fig.width=12}
 g_bl_all
 ```
+
+
 
 Row {data-height=50}
 -----------------------------------------------------------------------
