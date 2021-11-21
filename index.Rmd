@@ -5,9 +5,11 @@ output:
     orientation: columns
     vertical_layout: fill
     logo: hzi4.png
+    social: [ "twitter", "facebook", "linkedin" ]
     theme: 
       version: 4
       bootswatch: cosmo
+      navbar-bg: "#1d3557"
 ---
 
 ```{r setup, include=FALSE}
@@ -20,11 +22,13 @@ library(leaflet)
 library(readr)
 library(tidyr)
 library(stringr)
+library(forcats)
 
 load("leaflet_maps/recent_maps_bl.RData")
 load("leaflet_maps/gall_bl.RData")
 load("leaflet_maps/recent_maps_bl_quara.RData")
 load("data_clean/current_tabs.RData")
+load("leaflet_maps/forecast.RData")
 
 # per country data
 df_long <- list.files("data_clean/", pattern = "_clean_kpi_bl.rds", full.names = TRUE) %>% 
@@ -46,17 +50,6 @@ recent_kmkdata_file <- list.files("data_clean/", pattern = "kmkdata.rds", full.n
   .[1] %>% 
   readRDS()
 
-
-recent_forcasts <- list.files("data_clean/", pattern = "_student.csv|_teacher.csv", full.names = TRUE) %>% 
-  as_tibble() %>% 
-  mutate(woche = str_extract(value, "[0-9]{2}")) %>% 
-  arrange(desc(woche)) %>% 
-  slice(1:2) %>% 
-  pull(value)
-
-forecast_students <- read_csv(grep("student", recent_forcasts, value = TRUE))
-forecast_teacher <- read_csv(grep("teacher", recent_forcasts, value = TRUE))
-time_kmk <- read_csv("data_clean/KMK_data.csv")
 ```
 
 
@@ -72,7 +65,6 @@ Column
 
 ```{r eval=TRUE}
 kmk_students_bl
-
 ```
 
 ### Infektionen Schüler {data-height=250}
@@ -95,7 +87,7 @@ plot_verlauf <- function(cat) {
   
   plot_data %>%
     ggplot(aes(kw, total, group = 1)) +
-    geom_col(fill = "#1a16a8") +
+    geom_col(fill = "#152238") +
     ggplot2::theme_light() +
     theme(text = element_text(size = 60))  +
     scale_x_discrete(breaks = xticks[seq(1, length(xticks), 7)]) +
@@ -116,7 +108,7 @@ kmk_teacher_bl
 ```
 
 
-### Infektionen Lehrkräfte {data-height=250}
+### Infektionen Lehrkräfte Verlauf {data-height=250}
 
 ```{r eval=TRUE, fig.width=20}
 plot_verlauf("teacher_infected") 
@@ -150,19 +142,31 @@ Quarantäne in Schulen
 Column
 -----------------------------------------------------------------------
 
-### Quarantäne von Schülern 
+### Quarantäne von Schülern {data-height=900}
 
 ```{r eval=TRUE}
 kmk_students_bl_quara
 ```
 
+### Quarantäne von Schülern Verlauf {data-height=250}
+
+```{r eval=TRUE, fig.width=20}
+plot_verlauf("students_quarantine") 
+```
+
 Column
 -----------------------------------------------------------------------
 
-### Quarantäne von Lehrkräften 
+### Quarantäne von Lehrkräften {data-height=900}
 
 ```{r eval=TRUE}
 kmk_teacher_bl_quara
+```
+
+### Quarantäne von Lehrkräften Verlauf {data-height=250}
+
+```{r eval=TRUE, fig.width=20}
+plot_verlauf("teacher_quarantine")
 ```
 
 
@@ -186,90 +190,110 @@ tab_teacher
 ```
 
 
-<b>Germany (overall)</b> {data-navmenu="Forecast"}
+
+<b>Vorhersage</b>
 =============================
 
-Column 
+Column {.tabset .tabset-fade}
 -----------------------------------------------------------------------
 
-### Count of COVID-19 Infected pupils
+### Baden-Württemberg
 
-```{r eval=TRUE}
-get_country <- function(data, country_code, sub_set) {
-  #data <- forecast_students
-  #country_code <- "TH"
-  
-  #sub_set <- "student"
-  
-  plot_data <- data %>%
-    mutate(key = paste0(type, "_", quantile),
-           ind_week = nchar(target_week),
-           target_week = ifelse(ind_week == 1, paste0("0", target_week), as.character(target_week)),
-           target_week = paste0(target_year, "-", target_week)) %>%
-    select(target_week, location, key, value) %>%
-    filter(location == country_code) %>%
-    mutate(value = as.numeric(value)) %>%
-    pivot_wider(names_from = key, values_from = value) %>%
-    bind_rows(time_kmk %>% 
-                filter(location == country_code) %>% 
-                mutate(ind_week = nchar(week),
-                       target_week = ifelse(ind_week == 1, paste0("0", week), as.character(week)),
-                       target_week = paste0(year, "-", target_week)) %>% 
-                select(target_week,
-                       location, point_NA = any_of(sub_set)) %>% 
-                mutate(point_NA = ifelse(point_NA == "-", NA, point_NA),
-                       point_NA = as.numeric(point_NA)))
-  
-  x_axis <- sort(plot_data$target_week)
-
-  plot_data %>% 
-    ggplot(aes(x = target_week, y = point_NA, group = 1)) +
-    geom_ribbon(
-      aes(ymin = quantile_0.025,
-          ymax = quantile_0.975),
-      alpha = 0.25,
-      fill = "#27408b"
-    ) +
-    geom_ribbon(aes(ymin = quantile_0.25,
-                    ymax = quantile_0.75),
-                alpha = 0.25,
-                fill = "#27408b") +
-    geom_point(color = "#27408b", size = 3) +
-    geom_line(color = "#27408b", size = 1) +
-    theme_light(base_size = 30) +
-    labs(x = "Kalenderwoche (KW)",
-         y = "Anzahl der Infizierten") +
-    theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5)) +
-    scale_x_discrete(breaks = x_axis[seq(1, length(x_axis), 5)])
-}
-
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$BW
 ```
 
-Column {data-width=250}
------------------------------------------------------------------------
+### Bayern
 
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-
-Baden-Württemberg {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "BW", "student")
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$BY
 ```
 
-### Vorhersage infizierter Lehrkräfte
+### Berlin
 
-```{r eval=TRUE}
-get_country(forecast_teacher, "BW", "teacher")
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$BE
 ```
+
+### Brandenburg
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$BB
+```
+
+### Bremen
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$HB
+```
+
+### Hamburg
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$HH
+```
+
+### Hessen
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$HE
+```
+
+### Niedersachsen
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$NI
+```
+
+### Mecklenburg-Vorpommern
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$MV
+```
+
+### Nordrhein-Westfalen
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$NW
+```
+
+### Rheinland-Pfalz
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$RP
+```
+
+### Saarland
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$SL
+```
+
+### Sachsen
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$SN
+```
+
+### Sachsen-Anhalt
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$ST
+```
+
+### Schleswig-Holstein
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$SH
+```
+
+### Thüringen
+
+```{r eval=TRUE, fig.width=16, fig.height=10}
+forecast_list$TH
+```
+
+
 
 Column {data-width=350}
 -----------------------------------------------------------------------
@@ -279,382 +303,6 @@ Column {data-width=350}
 Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 
-Bayern {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "BY", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "BY", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Berlin {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "BE", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "BE", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Brandenburg {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "BB", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "BB", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Bremen {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "HB", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "HB", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Hamburg {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "HH", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "HH", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Hessen {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "HE", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "HE", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Niedersachsen {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "NI", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "NI", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Mecklenburg-Vorpommern {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "MV", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "MV", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Nordrhein-Westfalen {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "NW", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "NW", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Rheinland-Pfalz {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "RP", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "RP", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Saarland {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "SL", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "SL", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Sachsen {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "SN", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "SN", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Sachsen-Anhalt {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "ST", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "ST", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-Schleswig-Holstein {data-navmenu="Forecast"}
-=============================
-
-Column
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "SH", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "SH", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
-
-
-
-Thüringen {data-navmenu="Forecast"}
-=============================
-
-Column 
------------------------------------------------------------------------
-
-### Vorhersage infizierter Schüler 
-
-```{r eval=TRUE}
-get_country(forecast_students, "TH", "student")
-```
-
-### Vorhersage infizierter Lehrkräfte
-
-```{r eval=TRUE}
-get_country(forecast_teacher, "TH", "teacher")
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Vorhersage
-
-Das Modell wurde auch als altersstrukturiertes Modell entwickelt. Es wird vom deterministischen SEIR-Modell (Susceptible-Exposed-Infectious-Recovered) mit zusätzlichen Komartments von der stationären Intensivstation, Langzeit-COVID und Tod. Die Ansteckungsraten entsprechender Altersgruppen hängen von den sozialen Kontakten der POLYMOD-Studie ab. Das Modell ist an gemeldete Fälle von KMK und RKI angepasst (survstat). Die angepassten Parameter werden verwendet, um die Fallzahlen in Schulen vorherzusagen. Wir betrachten die gemeldeten Daten der letzten zwei Wochen als Vorhersagen für die nächsten zwei Wochen. Die Prognosen werden in Fällen von Schülern und Lehrern/Lehrkräften angezeigt.
 
 
 Impressum 
