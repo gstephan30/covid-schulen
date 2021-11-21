@@ -63,4 +63,4 @@ g_bl_all <- ggplot() +
                        midpoint = max(perc_na)/2)
 
 save(g_bl_all, file = "leaflet_maps/gall_bl.RData")
-ggsave(g_bl_all, filename = "leaflet_maps/gall_bl.png", dpi = 300, scale = 4)  
+#ggsave(g_bl_all, filename = "leaflet_maps/gall_bl.png", dpi = 300, scale = 4)  
