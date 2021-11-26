@@ -127,7 +127,7 @@ kmk_students_bl <- leaflet(options = leafletOptions(
   addLegend(position = "bottomright",
             pal = pall, 
             values = kmk_data$students_perc[!is.na(kmk_data$students_perc)],
-            title = "Infizierte Schüler\nin %", na.label="")
+            title = "% wöchentlich gemeldeter<br>Infektionen von SchülerInnen", na.label="")
 
 #####################################################################################
 #### teacher
@@ -195,6 +195,6 @@ kmk_teacher_bl <- leaflet(options = leafletOptions(
   addLegend(position = "bottomright",
             pal = pall, 
             values = kmk_data$teacher_perc[!is.na(kmk_data$teacher_perc)],
-            title = "Infizierte Lehrkräfte\nin %", na.label="")
+            title = "% wöchentlich gemeldeter<br>Infektionen von LehrerInnen", na.label="")
 
 save(kmk_students_bl, kmk_teacher_bl, file = "leaflet_maps/recent_maps_bl.RData")
