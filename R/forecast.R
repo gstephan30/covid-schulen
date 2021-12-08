@@ -7,7 +7,7 @@ library(forcats)
 
 recent_forcasts <- list.files("data_clean/", pattern = "_student.csv|_teacher.csv", full.names = TRUE) %>%
   as_tibble() %>%
-  mutate(woche = str_extract(value, "[0-9]{2}")) %>%
+  mutate(woche = str_extract(value, "[0-9]{6}")) %>%
   arrange(desc(woche)) %>%
   slice(1:2) %>%
   pull(value)
