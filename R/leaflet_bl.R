@@ -27,6 +27,7 @@ infected <- kpi_kreis %>%
     values_fill = 0
   ) %>% 
   separate(key, c("bl", "bl2"), remove = FALSE) %>% 
+  # calculation of percent
   mutate(students_perc = students_infected/students_total*100,
          teacher_perc = teacher_infected/teacher_total*100,
          HASC_1 = paste0("DE.", toupper(bl2)),
