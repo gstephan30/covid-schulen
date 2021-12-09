@@ -1,31 +1,78 @@
 {
-    "description": "<p>SARS-CoV-2 School Infection Dashboard Germany</p>", 
-    "license": "other-open", 
-    "title": "hzi-braunschweig/covid-schulen: v0.2.0-alpha", 
+    "title": "SARS-CoV-2 School Infection Dashboard Germany", 
+    "description": "Dashboard reporting infection & quarantine of German pupils and teacher and forecasting infection rates per county", 
     "version": "dashboard", 
     "upload_type": "software", 
     "publication_date": "2021-12-08", 
+    "license": "apache2",
+    "language": "deu",
+    "access_right": "open", 
+    "communities": [
+        {
+            "identifier": "helmholtzcentreforinfectionresearch"
+        }
+    ],
     "creators": [
         {
             "affiliation": "Helmholtz Centre for Infection Research", 
-            "name": "Stephan Gl\u00f6ckner"
+            "name": "Gloeckner, Stephan",
+            "orcid": "https://orcid.org/0000-0002-7975-9049",
+            "type": "Researcher"
         }
+    ],
+    "contributors": [
         {
-            "affiliation": "Helmholtz Centre for Infection Research", 
-            "name": "Berit Lange"
+            "name": "Lange, Berit",
+            "affiliation": "Helmholtz Centre for Infection Research",
+            "orcid": "https://orcid.org/0000-0002-9325-9307",
+            "type": "ProjectManager"
         }
-    ], 
-    "access_right": "open", 
+    ],
     "related_identifiers": [
         {
             "scheme": "url", 
-            "identifier": "https://github.com/hzi-braunschweig/covid-schulen/tree/dashboard", 
+            "identifier": "https://github.com/hzi-braunschweig/covid-schulen/", 
             "relation": "isSupplementTo"
         }, 
         {
             "scheme": "doi", 
-            "identifier": "10.5281/zenodo.5768685", 
+            "identifier": "10.5281/zenodo.5768686", 
             "relation": "isVersionOf"
         }
-    ]
+    ],
+    "subjects": [
+        {
+            "term": "Gesundheitsberichterstattung",
+            "identifier": "info:ddc/22/de//614.42"
+        },
+        {
+            "term": "Epidemiologie",
+            "identifier": "info:ddc/22/de//614.4"
+        },
+        {
+            "term": "Public health surveillance",
+            "identifier": "info:ddc/22/eng//614.42"
+        },
+        {
+            "term": "Epidemiology",
+            "identifier": "info:ddc/22/eng//614.4"
+        }
+  ],
+    "keywords": [
+        "Schulinfektionen",
+        "Pupil",
+        "Teacher",
+        "Schueler",
+        "Lehrer",
+        "Kultusministerium",
+        "Vorhersage",
+        "Forecasting",
+        "COVID-19",
+        "SARS-CoV-2",
+        "Infektion",
+        "Deutschland",
+        "Infection",
+        "Germany",
+        "HZI"
+  ]
 }
