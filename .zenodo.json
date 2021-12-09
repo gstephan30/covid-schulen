@@ -1,0 +1,31 @@
+{
+    "description": "<p>SARS-CoV-2 School Infection Dashboard Germany</p>", 
+    "license": "other-open", 
+    "title": "hzi-braunschweig/covid-schulen: v0.2.0-alpha", 
+    "version": "dashboard", 
+    "upload_type": "software", 
+    "publication_date": "2021-12-08", 
+    "creators": [
+        {
+            "affiliation": "Helmholtz Centre for Infection Research", 
+            "name": "Stephan Gl\u00f6ckner"
+        }
+        {
+            "affiliation": "Helmholtz Centre for Infection Research", 
+            "name": "Berit Lange"
+        }
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/hzi-braunschweig/covid-schulen/tree/dashboard", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.5768685", 
+            "relation": "isVersionOf"
+        }
+    ]
+}
