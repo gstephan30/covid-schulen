@@ -62,5 +62,5 @@ g_bl_all <- ggplot() +
   scale_fill_gradient2(low = "#053061", high = "#67001f", mid = "#f7f7f7",
                        midpoint = max(perc_na)/2)
 
-save(g_bl_all, file = "leaflet_maps/gall_bl.RData")
+save(g_bl_all, perc_na, file = "leaflet_maps/gall_bl.RData")
 #ggsave(g_bl_all, filename = "leaflet_maps/gall_bl.png", dpi = 300, scale = 4)  
