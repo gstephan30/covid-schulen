@@ -9,6 +9,7 @@ library(htmltools)
 library(htmlwidgets)
 
 
+
 kpi_kreis <- list.files(path = "data_clean/", pattern = "clean_kpi_bl", full.names = TRUE) %>% 
   as_tibble() %>% 
   rename(file = value) %>% 
