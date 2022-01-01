@@ -89,7 +89,8 @@ plot_verlauf <- function(cat) {
     ggplot(aes(kw, total, group = 1)) +
     geom_col(fill = "#152238") +
     ggplot2::theme_light() +
-    theme(text = element_text(size = 60))  +
+    theme(text = element_text(size = 60),
+          axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5))  +
     scale_x_discrete(breaks = xticks[seq(1, length(xticks), 7)]) +
     labs(x = "Kalenderwoche", y = "Total infiziert")
 }
