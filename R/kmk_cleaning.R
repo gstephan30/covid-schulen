@@ -12,10 +12,10 @@ data_files <- list.files(path = "data_raw/kmk.org/", full.names = TRUE) %>%
   grep("chulart", .,  value = TRUE, invert = TRUE) %>% 
   as_tibble() %>% 
   rename(file = value) %>% 
-  mutate(week = str_remove_all(file, "Covid-19|Covid19|-|_|Werte|Zahlen|neu|.xlsx|data/"),
+  mutate(week = str_remove_all(file, "Covid-19|Covid19|-|_|Werte|Zahlen|neu|2022|.xlsx|data/"),
          week = str_extract(week, "[0-9][0-9]|[0-9]"),
          week = as.numeric(week),
-         year = ifelse(grepl("Zahlen|_AW.xlsx", file), 2020, 2021)) %>% 
+         year = ifelse(grepl("Zahlen|_AW.xlsx", file), 2020, ifelse(grepl("2022|01.xlsx", file), 2022, 2021))) %>%
   arrange(desc(year), desc(week))
 
 ## subset the data

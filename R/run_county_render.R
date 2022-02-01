@@ -20,7 +20,7 @@ kpi_bl <- list.files(path = "data_clean/", pattern = "_clean_kpi_bl.rds", full.n
   pull(file) %>% 
   .[1] %>% 
   readRDS() %>% 
-  filter(year(data_date) == 2021) %>% 
+  filter(year(data_date) >= 2021) %>% 
   pivot_wider(
     names_from = "category",
     values_from = "value",

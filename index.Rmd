@@ -78,7 +78,7 @@ plot_verlauf <- function(cat) {
       woche = week(data_date),
       woche = ifelse(nchar(woche) == 1, paste0("0", woche), woche),
       jahr = year(data_date),
-      kw = paste0(jahr, "-KW", woche)
+      kw = paste0(jahr, "-", woche)
     ) %>%
     group_by(kw) %>%
     summarise(total = sum(value, na.rm = TRUE))
@@ -89,7 +89,7 @@ plot_verlauf <- function(cat) {
     ggplot(aes(kw, total, group = 1)) +
     geom_col(fill = "#152238") +
     ggplot2::theme_light() +
-    theme(text = element_text(size = 60),
+    theme(text = element_text(size = 40),
           axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5))  +
     scale_x_discrete(breaks = xticks[seq(1, length(xticks), 7)]) +
     labs(x = "Kalenderwoche", y = "Total infiziert")
@@ -320,7 +320,7 @@ Internet: https://www.helmholtz-hzi.de/
 
 __Rechtsform__
 
-Das Helmholtz-Zentrum für Infektionsforschung (HZI) ist eine Gesellschaft mit beschränkter Haftung (mbH). Das HZI ist Mitglied der Helmholtz-Gemeinschaft Deutscher Forschungszentren e.V.  
+Das Helmholtz-Zentrum für Infektionsforschung (HZI) ist eine Gesellschaft mit beschränkter Haftung (GmbH). Das HZI ist Mitglied der Helmholtz-Gemeinschaft Deutscher Forschungszentren e.V.  
 Registernummer: HRB 477  
 Registergericht: Amtsgericht Braunschweig
 
