@@ -200,97 +200,97 @@ Column {.tabset .tabset-fade}
 
 ### Baden-Württemberg
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$BW
 ```
 
 ### Bayern
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$BY
 ```
 
 ### Berlin
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$BE
 ```
 
 ### Brandenburg
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$BB
 ```
 
 ### Bremen
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$HB
 ```
 
 ### Hamburg
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$HH
 ```
 
 ### Hessen
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$HE
 ```
 
 ### Niedersachsen
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$NI
 ```
 
 ### Mecklenburg-Vorpommern
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$MV
 ```
 
 ### Nordrhein-Westfalen
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$NW
 ```
 
 ### Rheinland-Pfalz
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$RP
 ```
 
 ### Saarland
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$SL
 ```
 
 ### Sachsen
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$SN
 ```
 
 ### Sachsen-Anhalt
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$ST
 ```
 
 ### Schleswig-Holstein
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$SH
 ```
 
 ### Thüringen
 
-```{r eval=TRUE, fig.width=16, fig.height=10}
+```{r eval=TRUE, fig.width=21, fig.height=10}
 forecast_list$TH
 ```
 
