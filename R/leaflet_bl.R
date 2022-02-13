@@ -66,8 +66,8 @@ saveRDS(kmk_data@data, file = paste0("data_clean/", heute_str, "_kmkdata_bl.rds"
 
 #### students
 pal <- colorNumeric(
-  palette = "RdBu",
-  reverse = TRUE,
+  palette = "YlOrRd",
+  reverse = FALSE,
   domain = kmk_data@data$students_perc,
   na.color = "#ffffff")
 
@@ -96,8 +96,8 @@ title <- tags$div(
 ) 
 
 pall <- colorNumeric(
-  palette = "RdBu",
-  reverse = TRUE,
+  palette = "YlOrRd",
+  reverse = FALSE,
   domain = kmk_data$student_perc[!is.na(kmk_data$students_perc)]
 )
 
@@ -134,8 +134,8 @@ kmk_students_bl <- leaflet(options = leafletOptions(
 #####################################################################################
 #### teacher
 pal <- colorNumeric(
-  palette = "RdBu",
-  reverse = TRUE,
+  palette = "YlOrRd",
+  reverse = FALSE,
   domain = kmk_data@data$teacher_perc,
   na.color = "#ffffff")
 
@@ -164,8 +164,8 @@ title <- tags$div(
 ) 
 
 pall <- colorNumeric(
-  palette = "RdBu",
-  reverse = TRUE,
+  palette = "YlOrRd",
+  reverse = FALSE,
   domain = kmk_data$teacher_perc[!is.na(kmk_data$teacher_perc)]
 )
 
