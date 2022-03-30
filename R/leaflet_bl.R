@@ -10,6 +10,7 @@ library(htmlwidgets)
 
 
 
+
 kpi_kreis <- list.files(path = "data_clean/", pattern = "clean_kpi_bl", full.names = TRUE) %>% 
   as_tibble() %>% 
   rename(file = value) %>% 
@@ -21,7 +22,7 @@ kpi_kreis <- list.files(path = "data_clean/", pattern = "clean_kpi_bl", full.nam
   readRDS()
 
 infected <- kpi_kreis %>% 
-  filter(year(data_date) == 2021) %>% 
+  filter(year(data_date) == 2022) %>% 
   pivot_wider(
     names_from = "category",
     values_from = "value",
@@ -56,9 +57,15 @@ kmk_data@data <- bl.shp@data %>%
               mutate(HASC_1 = str_replace_all(HASC_1, "DE.BB", "DE.BR")),
             by = "HASC_1") %>% 
   mutate(label = paste0(NAME_1, "\nInfiziert: ", round(students_perc, 4), "%"),
-         label = ifelse(grepl("NA%$", label), paste0(NAME_1, " - Schule geschlossen"), label),
+         label = ifelse(grepl("NA%$", label), 
+                        paste0(NAME_1, " - Schule geschlossen\noder keine Daten vorhanden"), 
+                        label),
          label_teacher = paste0(NAME_1, "\nInfiziert: ", round(teacher_perc, 4), "%"),
-         label_teacher = ifelse(grepl("NA%$", label_teacher), paste0(NAME_1, " - Schule geschlossen"), label_teacher))
+         label_teacher = ifelse(grepl("NA%$", label_teacher), 
+                                paste0(NAME_1, " - Schule geschlossen\noder keine Daten vorhanden"), 
+                                label_teacher))
+         #label_teacher = ifelse(grepl("NA%$", label_teacher), paste0(NAME_1, " - Schule geschlossen"), ifelse(grepl("Berlin", label_teacher), paste0(NAME_1, " - keine validaten Daten"), label_teacher)))
+         
 
 heute_str <- gsub("-", "", Sys.Date())
 saveRDS(kmk_data@data, file = paste0("data_clean/", heute_str, "_kmkdata_bl.rds"))

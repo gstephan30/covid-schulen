@@ -20,7 +20,7 @@ kpi_kreis <- list.files(path = "data_clean/", pattern = "clean_kpi_bl", full.nam
   readRDS()
 
 quara <- kpi_kreis %>% 
-  filter(year(data_date) == 2021) %>% 
+  filter(year(data_date) == 2022) %>% 
   pivot_wider(
     names_from = "category",
     values_from = "value",
@@ -53,6 +53,7 @@ kmk_data@data <- bl.shp@data %>%
          label_teacher = ifelse(grepl("NA%$", label_teacher), 
                                 paste0(NAME_1, " - Schule geschlossen\noder keine Daten vorhanden"), 
                                 label_teacher))
+
 
 heute_str <- gsub("-", "", Sys.Date())
 saveRDS(kmk_data@data, file = paste0("data_clean/", heute_str, "_kmkdata_bl_quara.rds"))
