@@ -345,7 +345,7 @@ Telefon: 0531 6181- 0
 
 __Wissenschaftliche Redaktion__
 
-Dr. Isti Rodiah, Mathematician
+Dr. Isti Rodiah, Mathematician 
 Dr. Stephan Glöckner, Data Scientist/Epidemiologe (https://github.com/gstephan30)  
 Dr. Berit Lange, Projektleitung  
 Telefon: 0531 6181- 3100  
